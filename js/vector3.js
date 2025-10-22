@@ -56,10 +56,10 @@ class Vector3 {
     }
 
     length() {
-        return Math.sqrt(this.length_squared())
+        return Math.sqrt(this.lengthSquared())
     }
 
-    length_squared() {
+    lengthSquared() {
         return this.e[0]*this.e[0] + this.e[1]*this.e[1] + this.e[2]*this.e[2];
     }
 
@@ -80,4 +80,26 @@ class Vector3 {
     toString() {
         return "Vector3("+this.e[0].toString()+", "+this.e[1].toString()+", "+this.e[2].toString()+")";
     }
+}
+
+function Random(min = 0, max = 1) {
+    return new Vector3(Math.random()*(max-min) + min, Math.random()*(max-min) + min, Math.random()*(max-min) + min);
+}
+
+function RandomUnitVector() {
+    while (true) {
+        p = Random(-1, 1);
+        lensq = p.lengthSquared();
+        if (1e-160 < lensq && lensq <= 1) {
+            return p.DivideConst(Math.sqrt(lensq));
+        }
+    }
+}
+
+function RandomOnHemisphere(normal = new Vector3()) {
+    const onUnitSphere = RandomUnitVector();
+    if (onUnitSphere.dot(normal) > 0.0) {
+        return onUnitSphere;
+    }
+    return onUnitSphere.MultiplyConst(-1);
 }

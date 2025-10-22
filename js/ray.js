@@ -25,4 +25,8 @@ class ray {
         rtVec3 = rtVec3.Add(this.#orig);
         return rtVec3;
     }
+
+    toString() {
+        return "Origin: "+this.#orig.toString()+" | Direction: "+this.#dir.toString()
+    }
 }

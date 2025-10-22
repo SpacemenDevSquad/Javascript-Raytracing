@@ -3,7 +3,8 @@ class interval {
     max;
 
     constructor(min = Infinity, max = -Infinity) {
-
+        this.min = min;
+        this.max = max;
     }
 
     size() {
@@ -16,5 +17,11 @@ class interval {
 
     surrounds(x = 0) {
         return this.min < x && x < this.max;
+    }
+
+    clamp(x) {
+        if (x < this.min) return this.min;
+        if (x > this.max) return this.max;
+        return x;
     }
 }

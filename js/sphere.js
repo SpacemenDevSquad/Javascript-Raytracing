@@ -8,20 +8,20 @@ class Sphere extends hittable {
         this.#radius = radius;
     }
 
-    hit(r = new ray(), rayTMin = 0.0, rayTMax = 0.0, rec = new hitRecord()) {
+    hit(r = new ray(), rayT = new interval(), rec = new hitRecord()) {
         const oc = this.#center.Subtract(r.origin());
-        const a = r.direction().length_squared();
+        const a = r.direction().lengthSquared();
         const h = r.direction().dot(oc);
-        const c = oc.length_squared(oc) - (this.#radius * this.#radius);
+        const c = oc.lengthSquared(oc) - (this.#radius * this.#radius);
         const discriminant = h*h - a*c;
         if (discriminant < 0) return false;
 
         const sqrtd = Math.sqrt(discriminant);
 
         let root = (h - sqrtd) / a;
-        if (root <= rayTMin || rayTMax <= root) {
+        if (!rayT.surrounds(root)) {
             root = (h + sqrtd) / a
-            if (root <= rayTMin || rayTMax <= root) return false;
+            if (!rayT.surrounds(root)) return false;
         }
 
         rec.t = root;

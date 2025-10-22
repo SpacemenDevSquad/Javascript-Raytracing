@@ -1,13 +1,14 @@
 class hittable {
     hittable() {};
-    hit(r = new ray(), rayTMin = 0.0, rayTMax = 0.0, rec = new hitRecord()) {
-        return 0;
+    hit(r = new ray(), rayT = new interval(), rec = new hitRecord()) {
+        return false;
     }
 }
 
 class hitRecord {
     p = new Vector3();
     normal = new Vector3();
+    mat = new material();
     t = 0.0;
     frontFace = true;
 
