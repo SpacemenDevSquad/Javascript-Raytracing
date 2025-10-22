@@ -3,13 +3,13 @@ class Vector3 {
         this.e = [e0, e1, e2];
     }
 
-    getX() {
+    X() {
         return this.e[0];
     }
-    getY() {
+    Y() {
         return this.e[1];
     }
-    getZ() {
+    Z() {
         return this.e[2];
     }
 

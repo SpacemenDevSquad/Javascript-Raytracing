@@ -19,10 +19,10 @@ class ray {
     }
 
     at(t = 0) {
-        const rtVec3 = new Vector3();
+        let rtVec3 = new Vector3();
         rtVec3.copy(this.#dir);
-        rtVec3.multiplyConst(t);
-        rtVec3.add(this.#orig);
+        rtVec3 = rtVec3.MultiplyConst(t);
+        rtVec3 = rtVec3.Add(this.#orig);
         return rtVec3;
     }
 }
