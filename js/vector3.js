@@ -77,6 +77,11 @@ class Vector3 {
         return this.DivideConst(this.length());
     }
 
+    nearZero() {
+        const zero = 1e-8;
+        return(this.X() < zero && this.Y() < zero && this.Z() < zero)
+    }
+
     toString() {
         return "Vector3("+this.e[0].toString()+", "+this.e[1].toString()+", "+this.e[2].toString()+")";
     }
@@ -102,4 +107,19 @@ function RandomOnHemisphere(normal = new Vector3()) {
         return onUnitSphere;
     }
     return onUnitSphere.MultiplyConst(-1);
+}
+
+function Reflect(v = new Vector3(), n = new Vector3()) {
+    return v.Subtract(n.MultiplyConst(2*v.dot(n)));
+}
+
+function Refract(uv = new Vector3(), n = new Vector3(), etaiOverEtat = 0.0) {
+    let cosTheta = (uv.MultiplyConst(-1)).dot(n);
+    if (cosTheta > 1) {
+        cosTheta = 1;
+    }
+    let rPerp = n.MultiplyConst(cosTheta);
+    rPerp = (uv.Add(rPerp)).MultiplyConst(etaiOverEtat);
+    let rPara = n.MultiplyConst(-1*Math.sqrt(Math.abs(1.0 - rPerp.lengthSquared())));
+    return rPerp.Add(rPara);
 }

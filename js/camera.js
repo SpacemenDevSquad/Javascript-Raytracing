@@ -1,17 +1,21 @@
-class camera {
+class Camera {
     // Public Variables & Functions
     aspectRatio;
     imageWidth;
-    canvasID;
+    canvasID = "viewport";
     pixelSample;
-    maxDepth;
+    maxDepth = 10;
+    fov = 90;
+    cameraPos = new Vector3();
+    lookAt = new Vector3(0, 0, -1);
+    vup = new Vector3(0, 1, 0);
 
-    constructor(aspectRatio = 16/9, imageWidth = 400, canvasID = "myCanvas", pixelSample = 10, maxDepth = 10) {
+    constructor(aspectRatio = 16/9, imageWidth = 400, pixelSample = 10, cameraPos = new Vector3(), fov = 90) {
         this.aspectRatio = aspectRatio;
         this.imageWidth = imageWidth;
-        this.canvasID = canvasID;
         this.pixelSample = pixelSample;
-        this.maxDepth = maxDepth;
+        this.cameraPos.copy(cameraPos);
+        this.fov = fov;
     }
 
     render(world = new hittableList()) {
@@ -50,6 +54,9 @@ class camera {
     #pixel00Location;
     #pixelDeltaU;
     #pixelDeltaV;
+    #camU;
+    #camV;
+    #camW;
 
     #initialize() {
         // Initalize Canvas, define canvas width & height
@@ -64,16 +71,23 @@ class camera {
         this.#pixelSampleScale = 1.0/this.pixelSample;
 
         // Camera Center
-        this.#center = new Vector3(0, 0, 0);
+        this.#center = this.cameraPos;
 
         // Viewport Dimensions
-        const focalLength = 1;
-        const viewportHeight = 2;
+        const focalLength = (this.cameraPos.Subtract(this.lookAt)).length();
+        const theta = this.fov * (Math.PI/180);
+        const h = Math.tan(theta/2);
+        const viewportHeight = 2 * h * focalLength;
         const viewportWidth = viewportHeight * (this.imageWidth/this.#imageHeight);
 
+        // Calculate camU, camV, camW
+        this.#camW = (this.cameraPos.Subtract(this.lookAt)).unitVector();
+        this.#camU = (this.vup.cross(this.#camW)).unitVector();
+        this.#camV = this.#camW.cross(this.#camU);
+
         // Canvas Edge Vectors
-        const viewportU = new Vector3(viewportWidth, 0, 0);
-        const viewportV = new Vector3(0, -viewportHeight, 0);
+        const viewportU = this.#camU.MultiplyConst(viewportWidth);
+        const viewportV = (this.#camV.MultiplyConst(viewportHeight)).MultiplyConst(-1);
 
         // Distance from pixel to pixel on canvas
         this.#pixelDeltaU = viewportU.DivideConst(this.imageWidth);
@@ -82,7 +96,7 @@ class camera {
         // Calculate the position of the upper left pixel
         let viewportUpperLeft = new Vector3();
         viewportUpperLeft.copy(this.#center);
-        viewportUpperLeft = viewportUpperLeft.Subtract(new Vector3(0, 0, focalLength));
+        viewportUpperLeft = viewportUpperLeft.Subtract(this.#camW.MultiplyConst(focalLength));
         viewportUpperLeft = viewportUpperLeft.Subtract(viewportU.MultiplyConst(0.5)).Subtract(viewportV.MultiplyConst(0.5));
         this.#pixel00Location = new Vector3();
         this.#pixel00Location.copy(viewportUpperLeft);
@@ -95,16 +109,20 @@ class camera {
             return new Vector3(0, 0, 0);
         }
         if (world.hit(r, new interval(0.001, Infinity), rec)) {
-            const direction = rec.normal.Add(RandomUnitVector());
-            return (this.#rayColor(new ray(rec.p, direction), depth - 1, world)).MultiplyConst(0.5);
+            const scattered = new ray();
+            const attenuation = new Vector3();
+            if (rec.mat.scatter(r, rec, attenuation, scattered)) {
+                return attenuation.MultiplyVec3(this.#rayColor(scattered, depth-1, world));
+            }
+            return new Vector3(0, 0, 0);
         }
 
         let unitDirection = new Vector3();
         unitDirection = r.direction();
         unitDirection = unitDirection.unitVector();
         const a = (-unitDirection.Y() + 1) * 0.5;
-        let a1 = new Vector3(1, 1, 1);
-        const a2 = new Vector3(0.2, 0.4, 1);
+        let a1 = new Vector3(0.8, 0.8, 1);
+        const a2 = new Vector3(0.0, 0.0, 1);
         a1 = a1.MultiplyConst (1-a).Add(a2.MultiplyConst(a))
         return a1;
     }

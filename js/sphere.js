@@ -1,11 +1,13 @@
 class Sphere extends hittable {
     #center;
     #radius;
+    #mat;
 
-    constructor(center = new Vector3(), radius = 0.0) {
+    constructor(center = new Vector3(), radius = 0.0, mat = new material()) {
         super();
         this.#center = center;
         this.#radius = radius;
+        this.#mat = mat;
     }
 
     hit(r = new ray(), rayT = new interval(), rec = new hitRecord()) {
@@ -28,7 +30,12 @@ class Sphere extends hittable {
         rec.p = r.at(rec.t);
         const outwardNormal = (rec.p.Subtract(this.#center)).DivideConst(this.#radius);
         rec.setFaceNormal(r, outwardNormal);
+        rec.mat = this.#mat;
 
         return true;
+    }
+
+    getMaterial() {
+        return this.#mat;
     }
 }

@@ -3,6 +3,9 @@ class hittable {
     hit(r = new ray(), rayT = new interval(), rec = new hitRecord()) {
         return false;
     }
+    getMaterial() {
+        return null;
+    }
 }
 
 class hitRecord {
@@ -26,5 +29,6 @@ class hitRecord {
         this.normal.copy(rec.normal);
         this.t = rec.t;
         this.frontFace = rec.frontFace;
+        this.mat = rec.mat;
     }
 }

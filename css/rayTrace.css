@@ -1,0 +1,10 @@
+canvas {
+    margin: auto;
+    display: block;
+    width: 80%;
+}
+
+.canvasDiv {
+    display: block;
+    width: 100%;
+}

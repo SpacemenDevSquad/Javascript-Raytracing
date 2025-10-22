@@ -26,6 +26,11 @@ class ray {
         return rtVec3;
     }
 
+    copy(r = new ray()) {
+        this.#orig = r.#orig;
+        this.#dir = r.#dir;
+    }
+
     toString() {
         return "Origin: "+this.#orig.toString()+" | Direction: "+this.#dir.toString()
     }
