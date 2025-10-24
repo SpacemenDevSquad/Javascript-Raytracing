@@ -4,19 +4,38 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Raytracer</title>
-    <script src="https://peterbrumbach.com/raytracer/js/interval.js"></script>
-    <script src="https://peterbrumbach.com/raytracer/js/vector3.js"></script>
-    <script src="https://peterbrumbach.com/raytracer/js/ray.js"></script>
-    <script src="https://peterbrumbach.com/raytracer/js/hittable.js"></script>
-    <script src="https://peterbrumbach.com/raytracer/js/materials.js"></script>
-    <script src="https://peterbrumbach.com/raytracer/js/hittableList.js"></script>
-    <script src="https://peterbrumbach.com/raytracer/js/sphere.js"></script>
-    <script src="https://peterbrumbach.com/raytracer/js/camera.js"></script>
-    <script src="https://peterbrumbach.com/raytracer/js/mainMethod.js"></script>
+    <script src="/js/interval.js"></script>
+    <script src="/js/vector3.js"></script>
+    <script src="/js/ray.js"></script>
+    <script src="/js/hittable.js"></script>
+    <script src="/js/materials.js"></script>
+    <script src="/js/hittableList.js"></script>
+    <script src="/js/sphere.js"></script>
+    <script src="/js/camera.js"></script>
+    <script src="/js/mainMethod.js"></script>
+    <link rel="stylesheet" href="https://peterbrumbach.com/CSS/Global/fonts.css">
     <link rel="stylesheet" href="css/rayTrace.css">
 </head>
 <body>
+    <h1>Javascript Raytracer</h1>
+    <h2>Generate 3D images in a web browser on your machine</h2>
     <div id="canvasDiv">
-        <canvas id="viewport" width="400" height="225" style="border:1px solid black;"></canvas>
+        <canvas id="viewport" width="400" height="225"></canvas>
+    </div>
+    <div id="renderButton" onclick="startRender()">
+        <p>Render!</p>
+    </div>
+    <div id="cameraSettings">
+        <p id="fovText" class="settingsText"></p>
+        <input id="fovSlider" class="slider" type="range" oninput="setFov()">
+        <p id="qualityText" class="settingsText"></p>
+        <input id="qualitySlider" class="slider" type="range" oninput="setQuality()">
+        <p id="positionText" class="settingsText">Camera Postion:</p>
+        <div id="positionRow">
+            <input type="text" class="camPosTextBox" id="camXPos" placeholder="X" oninput="setPosition()"><br>
+            <input type="text" class="camPosTextBox" id="camYPos" placeholder="Y" oninput="setPosition()"><br>
+            <input type="text" class="camPosTextBox" id="camZPos" placeholder="Z" oninput="setPosition()"><br>
+        </div>
+        <p class="settingsText">Antialias <input type="checkbox" id="antialias"><br></p>
     </div>
 </body>
