@@ -323,7 +323,7 @@ function AddSphere(type = "") {
     document.getElementById("objectsGrid").appendChild(newSphere);
 }
 
-// Set sphere properties
+// Set Sphere Properties
 function SetSphereLambertian(name = "") {
     const sphereElement = document.getElementById(name);
     const posX = parseFloat(sphereElement.querySelector("#posX").value) || 0;
@@ -359,6 +359,7 @@ function SetSphereGlass(name = "") {
     worldSpheres[name] = new Sphere(new Vector3(posX, posY, posZ), radius, new dielectric(refract));
 }
 
+// Delete Sphere from World List
 function RemoveSphere(name = "") {
     delete worldSpheres[name];
     let deletedSphere = document.getElementById(name);
