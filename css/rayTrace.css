@@ -4,6 +4,12 @@ html {
     background: linear-gradient(180deg, #74add1, #FFFFFF);
 }
 
+body {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+
 canvas {
     width: 80%;
     margin: auto;
