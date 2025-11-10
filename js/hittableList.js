@@ -1,3 +1,8 @@
+/**
+ * A list for hittable objects
+ * Created 2025
+ * Peter Brumbach
+ */
 class hittableList extends hittable{
     objects = new Array();
 
