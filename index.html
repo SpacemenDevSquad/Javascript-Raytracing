@@ -19,23 +19,77 @@
 <body>
     <h1>Javascript Raytracer</h1>
     <h2>Generate 3D images in a web browser on your machine</h2>
+    <h2>By Peter Brumbach, Henry Tan, Jacob Huber</h2>
     <div id="canvasDiv">
         <canvas id="viewport" width="400" height="225"></canvas>
     </div>
     <div id="renderButton" onclick="startRender()">
         <p>Render!</p>
     </div>
+
+    <div name="spacer" style="height: 3vw;"></div>
+
+    <div id="descriptionBox">
+        <h3 id="timer">Welcome</h3>
+        <p>
+            If it wasn't apparent, this is a simple raytracer that is able to run in javascript on your web browser. 
+            Below are a couple settings that can be adjusted to change the scene above, such as adding and removing spheres as well as changing your camera.
+            When you are ready, you can click the render button above to create your scene!
+        </p>
+        <p>Book that provided the basis for the algorithm (Huge Help): <a href="https://raytracing.github.io/books/RayTracingInOneWeekend.html">Ray Tracing in One Weekend</a></p>
+        <p>Code on Github: <a href="https://github.com/SpacemenDevSquad/Javascript-Raytracing">JavaScript Raytracer</a></p>
+        <p>A Different Approach: <a href="https://github.com/SpacemenDevSquad/Javascript-Raytracing">Raymarching</a></p>
+    </div>
+
     <div id="cameraSettings">
         <p id="fovText" class="settingsText"></p>
         <input id="fovSlider" class="slider" type="range" oninput="setFov()">
         <p id="qualityText" class="settingsText"></p>
         <input id="qualitySlider" class="slider" type="range" oninput="setQuality()">
         <p id="positionText" class="settingsText">Camera Postion:</p>
-        <div id="positionRow">
+        <div class="textBoxRow">
             <input type="text" class="camPosTextBox" id="camXPos" placeholder="X" oninput="setPosition()"><br>
             <input type="text" class="camPosTextBox" id="camYPos" placeholder="Y" oninput="setPosition()"><br>
             <input type="text" class="camPosTextBox" id="camZPos" placeholder="Z" oninput="setPosition()"><br>
         </div>
-        <p class="settingsText">Antialias <input type="checkbox" id="antialias"><br></p>
     </div>
+
+    <div class="textBoxRow">
+        <div class="createButton" onclick="AddSphere('lambertian')">
+            <p>Make Lambertain Sphere</p>
+        </div>
+        <div class="createButton" onclick="AddSphere('metal')">
+            <p>Make Metallic Sphere</p>
+        </div>
+        <div class="createButton" onclick="AddSphere('glass')">
+            <p>Make Glass Sphere</p>
+        </div>
+    </div>
+
+    <div id="objectsGrid">
+        <div id="sphere1" class="object">
+            <p class="settingsText">World Position</p>
+            <div class="textBoxRow">
+                <input type="text" class="camPosTextBox" id="posX" placeholder="X" oninput="SetSphereLambertian('sphere1')" value="0" autocomplete="off"><br>
+                <input type="text" class="camPosTextBox" id="posY" placeholder="Y" oninput="SetSphereLambertian('sphere1')" value="0" autocomplete="off"><br>
+                <input type="text" class="camPosTextBox" id="posZ" placeholder="Z" oninput="SetSphereLambertian('sphere1')" value="-1.2" autocomplete="off"><br>
+            </div>
+            <p class="settingsText">Radius</p>
+            <div class="textBoxRow">
+                <input type="text" class="camPosTextBox" id="radius" placeholder="m" oninput="SetSphereLambertian('sphere1')" value="0.5" autocomplete="off"><br>
+            </div>
+            <p class="settingsText">Color</p>
+            <div class="textBoxRow">
+                <input type="text" class="camPosTextBox" id="colorR" placeholder="R" oninput="SetSphereLambertian('sphere1')" value="0.1" autocomplete="off"><br>
+                <input type="text" class="camPosTextBox" id="colorG" placeholder="G" oninput="SetSphereLambertian('sphere1')" value="0.2" autocomplete="off"><br>
+                <input type="text" class="camPosTextBox" id="colorB" placeholder="B" oninput="SetSphereLambertian('sphere1')" value="0.5" autocomplete="off"><br>
+            </div>
+            <div class="rmButton" onclick="RemoveSphere('sphere1')">
+                <p>Delete</p>
+            </div>
+            <div name="spacer" style="height: 3vw;"></div>
+        </div>
+    </div>
+
+    <div name="spacer" style="height: 30vw;"></div>
 </body>
