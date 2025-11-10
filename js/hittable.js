@@ -1,3 +1,8 @@
+/**
+ * Hittable class for objects in scene that rays can interact with.
+ * Created 2025
+ * Peter Brumbach
+ */
 class hittable {
     hittable() {};
     hit(r = new ray(), rayT = new interval(), rec = new hitRecord()) {

@@ -1,3 +1,8 @@
+/**
+ * The camera class, responsible for rendering a scene given a series of objects and their positions
+ * Created 2025
+ * Peter Brumbach
+ */
 class Camera {
     // Public Variables & Functions
     aspectRatio;
@@ -18,6 +23,7 @@ class Camera {
         this.fov = fov;
     }
 
+    // Start the render process
     render(world = new hittableList()) {
         this.#initialize()
 
@@ -103,20 +109,30 @@ class Camera {
         this.#pixel00Location = this.#pixel00Location.Add(this.#pixelDeltaU.DivideConst(2)).Add(this.#pixelDeltaV.DivideConst(2));
     }
 
+    // Calculate the color of the array recursively. Can repeat until hitting a specified depth to prevent potentially running infinitely.
     #rayColor(r = new ray(), depth = 0, world = new hittableList()) {
+
+
         let rec = new hitRecord();
         if (depth <= 0) {
             return new Vector3(0, 0, 0);
         }
+
+        // Ray has been hit
         if (world.hit(r, new interval(0.001, Infinity), rec)) {
             const scattered = new ray();
             const attenuation = new Vector3();
+
+            // Checks if object's material allows ray to be scattered (and then scatters in provided direction)
             if (rec.mat.scatter(r, rec, attenuation, scattered)) {
                 return attenuation.MultiplyVec3(this.#rayColor(scattered, depth-1, world));
             }
+
+            // Ray is dead
             return new Vector3(0, 0, 0);
         }
 
+        // Ray has not been hit. Calculates the skybox color to give background gradient
         let unitDirection = new Vector3();
         unitDirection = r.direction();
         unitDirection = unitDirection.unitVector();
@@ -134,6 +150,7 @@ class Camera {
         return 0;
     }
 
+    // Used to convert a Vector3 color to a format a HTML canvas can understand
     #WriteColor(pixelColor = new Vector3()) {
         const intensity = new interval(0, 0.8);
         let r = pixelColor.X();
@@ -150,6 +167,7 @@ class Camera {
         return "rgb("+r.toString()+" "+g.toString()+" "+b.toString()+")";
     }
 
+    // Get a specific ray at coordinate i, j
     #getRay(i, j) {
         const offset = this.#sampleSquare();
         let pixelSample = this.#pixel00Location.Add(this.#pixelDeltaU.MultiplyConst(i+offset.X()));

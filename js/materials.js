@@ -1,6 +1,14 @@
+/**
+ * Different materials that can be applied to hittable objects to change how the rays scatter
+ * Created 2025
+ * Peter Brumbach
+ */
+
+// Default class
 class material {
     constructor() {}
     
+    // Returns if ray has been scattered and changes 'scattered' to show the new direction of the ray
     scatter(rIn = new ray(), rec = new hitRecord(), attenuation = new Vector3(), scattered = new ray()) {
         return false;
     }
@@ -10,6 +18,8 @@ class material {
     }
 }
 
+// Lambertain: Standard material, looks like a solid object
+// Albedo is color
 class lambertian extends material {
     #albedo;
     constructor(albedo = new Vector3) {
@@ -33,6 +43,8 @@ class lambertian extends material {
     }
 }
 
+// Metal: Reflects different objects around it while having its own color
+// Fuzz changes how well metal is able to reflect. (Lower is more reflective)
 class metal extends material {
     #albedo;
     #fuzz;
@@ -56,6 +68,8 @@ class metal extends material {
     }
 }
 
+// Dielectric: Allows rays to pass through or reflect off itself, but does not have a color
+// Refraction Index changes how many rays are passed through hittable object (1 is nearly transparent)
 class dielectric extends material {
     #refractionIndex
     constructor(refractionIndex = 0.0) {
@@ -72,6 +86,7 @@ class dielectric extends material {
             ri = this.#refractionIndex;
         }
 
+        // Snell's Law
         const unitDirection = rIn.direction().unitVector();
         let direction;
         let cosTheta = (unitDirection.MultiplyConst(-1)).dot(rec.normal);

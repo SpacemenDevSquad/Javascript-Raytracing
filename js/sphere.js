@@ -1,3 +1,8 @@
+/**
+ * The sphere class. Is a hittable object, can interfere with a ray's path.
+ * Created 2025
+ * Peter Brumbach
+ */
 class Sphere extends hittable {
     #center;
     #radius;
@@ -10,6 +15,7 @@ class Sphere extends hittable {
         this.#mat = mat;
     }
 
+    // Function to detect if sphere was in ray's path (Ray hit sphere)
     hit(r = new ray(), rayT = new interval(), rec = new hitRecord()) {
         const oc = this.#center.Subtract(r.origin());
         const a = r.direction().lengthSquared();

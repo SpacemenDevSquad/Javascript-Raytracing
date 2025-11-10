@@ -1,3 +1,8 @@
+/**
+ * Default Vector3 class for recording Vectors, Colors, and 3-dimensional objects, as well as additional functions to return different vectors
+ * Created 2025
+ * Peter Brumbach
+ */
 class Vector3 {
     constructor(e0 = 0.0, e1 = 0.0, e2 = 0.0) {
         this.e = [e0, e1, e2];
@@ -87,10 +92,12 @@ class Vector3 {
     }
 }
 
+// Returns random Vector3
 function Random(min = 0, max = 1) {
     return new Vector3(Math.random()*(max-min) + min, Math.random()*(max-min) + min, Math.random()*(max-min) + min);
 }
 
+// Returns random Unit Vector
 function RandomUnitVector() {
     while (true) {
         p = Random(-1, 1);
@@ -113,6 +120,7 @@ function Reflect(v = new Vector3(), n = new Vector3()) {
     return v.Subtract(n.MultiplyConst(2*v.dot(n)));
 }
 
+// Refracting function for Snell's Law
 function Refract(uv = new Vector3(), n = new Vector3(), etaiOverEtat = 0.0) {
     let cosTheta = (uv.MultiplyConst(-1)).dot(n);
     if (cosTheta > 1) {

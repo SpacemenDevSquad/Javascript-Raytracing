@@ -1,4 +1,5 @@
 /**
+ * The main method function. Called when the webpage loads, and handles various HTML elements. Calls camera to start render function.
  * Created 2025
  * Peter Brumbach
  */

@@ -1,3 +1,8 @@
+/**
+ * Ray class for recording different rays' properties
+ * Created 2025
+ * Peter Brumbach
+ */
 class ray {
     #orig
     #dir

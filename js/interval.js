@@ -1,3 +1,8 @@
+/**
+ * Generic interval class for setting bounds on objects
+ * Created 2025
+ * Peter Brumbach
+ */
 class interval {
     min;
     max;
